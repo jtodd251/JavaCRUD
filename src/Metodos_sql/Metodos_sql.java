@@ -141,10 +141,54 @@ public class Metodos_sql {
             else if(usuario.equals("")){
                 JOptionPane.showMessageDialog(null, "Falta el usuario");
             }
-            else if(ccontraseña != contraseña){
+            
+            else if(!contraseña.equals(ccontraseña)){
                 JOptionPane.showMessageDialog(null, "La confirmacion de la contraseña no coincide");
             }
+
+            else if(contraseña.equals(ccontraseña)){
+                resultado = sentencia_preparada.executeUpdate();
+                sentencia_preparada.close();
+                
+                conexion.close();
+                if(resultado>0){
+                    JOptionPane.showMessageDialog(null, "Datos guardados correctamente.");
+                    
+                }
             else{
+                    JOptionPane.showMessageDialog(null, "los datos no pudieron ser guardados .");
+                
+                }
+            }
+              
+        
+        } catch (Exception e){
+            
+            System.out.println(e);
+        
+        }
+        
+        return resultado;
+    
+    }
+        public int guardar(String nombre, String marca, String categoria, double precio, int cantidad ){
+        
+        int resultado = 0;
+        Connection conexion= null;
+        
+        String sentencia_guardar = ("INSERT INTO productos(nombre,marca,categoira,precio,cantidad) VALUES (?,?,?,?,?)");
+        
+        try { 
+            conexion =  ConexionBD.conectar();
+            sentencia_preparada = conexion.prepareStatement(sentencia_guardar);
+            sentencia_preparada.setString(1, nombre);
+            sentencia_preparada.setString(2, marca);
+            sentencia_preparada.setString(3, categoria);
+            sentencia_preparada.setDouble(4, precio);
+            sentencia_preparada.setInt(5, cantidad);            
+            
+           
+            
             resultado = sentencia_preparada.executeUpdate();
             sentencia_preparada.close();
             
@@ -153,7 +197,7 @@ public class Metodos_sql {
                 JOptionPane.showMessageDialog(null, "Datos guardados correctamente.");
                 
             }
-            }
+            
         
         } catch (Exception e){
             
