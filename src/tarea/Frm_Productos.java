@@ -4,6 +4,14 @@
  */
 package tarea;
 
+import Metodos_sql.ConexionBD;
+import Metodos_sql.Metodos_sql;
+import static Metodos_sql.Metodos_sql.resultado;
+import static Metodos_sql.Metodos_sql.sentencia_preparada;
+import java.sql.Connection;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author jtodd
@@ -15,7 +23,29 @@ public class Frm_Productos extends javax.swing.JFrame {
      */
     public Frm_Productos() {
         initComponents();
+        mostrarDatos();
+        this.dispose();
+        setLocationRelativeTo(null);
+        
+       
     }
+    
+    public void limpiar(){
+        
+        txtNombre.setText("");
+        txtMarca.setText("");
+        txtCategoria.setText("");
+        txtPrecio.setText("");
+        txtCantidad.setText("");
+        txtIdProducto.setText("");
+        
+    
+    
+    }
+    
+    Metodos_sql metodos = new Metodos_sql();
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,7 +61,7 @@ public class Frm_Productos extends javax.swing.JFrame {
         tblProductos = new javax.swing.JTable();
         btnNuevo = new javax.swing.JButton();
         lblIdUsuario = new javax.swing.JLabel();
-        txtIdUsuario = new javax.swing.JTextField();
+        txtIdProducto = new javax.swing.JTextField();
         lblNombre = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
         lblMarca = new javax.swing.JLabel();
@@ -42,7 +72,7 @@ public class Frm_Productos extends javax.swing.JFrame {
         txtPrecio = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         txtCantidad = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnRegresar = new javax.swing.JButton();
@@ -64,18 +94,29 @@ public class Frm_Productos extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProductos);
 
+        btnNuevo.setBackground(new java.awt.Color(153, 255, 255));
         btnNuevo.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
 
         lblIdUsuario.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         lblIdUsuario.setText("Id Usuario:");
 
-        txtIdUsuario.setEditable(false);
-        txtIdUsuario.addActionListener(new java.awt.event.ActionListener() {
+        txtIdProducto.setEditable(false);
+        txtIdProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdUsuarioActionPerformed(evt);
+                txtIdProductoActionPerformed(evt);
             }
         });
 
@@ -94,20 +135,50 @@ public class Frm_Productos extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel2.setText("Cantidad:");
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        jButton2.setText("Limpiar Datos");
+        btnLimpiar.setBackground(new java.awt.Color(153, 255, 255));
+        btnLimpiar.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
+        btnLimpiar.setText("Limpiar Datos");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
 
+        btnActualizar.setBackground(new java.awt.Color(153, 255, 255));
         btnActualizar.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
 
+        btnEliminar.setBackground(new java.awt.Color(153, 255, 255));
         btnEliminar.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
+        btnRegresar.setBackground(new java.awt.Color(153, 255, 255));
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         btnRegresar.setText("Regresar");
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresarActionPerformed(evt);
+            }
+        });
 
+        btnCerrar.setBackground(new java.awt.Color(153, 255, 255));
         btnCerrar.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         btnCerrar.setText("Cerrar sesion ");
+        btnCerrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -126,8 +197,7 @@ public class Frm_Productos extends javax.swing.JFrame {
                         .addGap(51, 51, 51)
                         .addComponent(btnActualizar)
                         .addGap(50, 50, 50)
-                        .addComponent(btnEliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnEliminar)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(27, 27, 27)
@@ -142,7 +212,7 @@ public class Frm_Productos extends javax.swing.JFrame {
                                     .addComponent(jLabel2))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtIdUsuario)
+                                    .addComponent(txtIdProducto)
                                     .addComponent(txtNombre)
                                     .addComponent(txtMarca)
                                     .addComponent(txtCategoria)
@@ -154,7 +224,7 @@ public class Frm_Productos extends javax.swing.JFrame {
                                 .addComponent(btnCerrar))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(86, 86, 86)
-                        .addComponent(jButton2)))
+                        .addComponent(btnLimpiar)))
                 .addGap(87, 87, 87))
         );
         layout.setVerticalGroup(
@@ -177,7 +247,7 @@ public class Frm_Productos extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblIdUsuario)
-                            .addComponent(txtIdUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblNombre)
@@ -199,16 +269,63 @@ public class Frm_Productos extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(38, 38, 38)
-                        .addComponent(jButton2)
+                        .addComponent(btnLimpiar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtIdUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdUsuarioActionPerformed
+    private void txtIdProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdProductoActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtIdUsuarioActionPerformed
+    }//GEN-LAST:event_txtIdProductoActionPerformed
+
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        
+        metodos.guardar(txtNombre.getText(), txtMarca.getText(), txtCategoria.getText(), Integer.parseInt(txtPrecio.getText()), Integer.parseInt(txtCantidad.getText()));
+        mostrarDatos();
+        limpiar();
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
+    private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
+        Frm_entrar ventana = new Frm_entrar();
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCerrarActionPerformed
+
+    private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
+        int filaseleccionada=tblProductos.rowAtPoint(evt.getPoint());
+        
+        txtIdProducto.setText(tblProductos.getValueAt(filaseleccionada,0).toString());
+        txtNombre.setText(tblProductos.getValueAt(filaseleccionada,1).toString());
+        txtMarca.setText(tblProductos.getValueAt(filaseleccionada,2).toString());
+        txtCategoria.setText(tblProductos.getValueAt(filaseleccionada,3).toString());
+        txtPrecio.setText(tblProductos.getValueAt(filaseleccionada,4).toString());
+        txtCantidad.setText(tblProductos.getValueAt(filaseleccionada,5).toString());
+        
+    }//GEN-LAST:event_tblProductosMouseClicked
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        metodos.Actualizar(txtNombre.getText(), txtMarca.getText(), txtCategoria.getText(), Integer.parseInt(txtPrecio.getText()), Integer.parseInt(txtCantidad.getText()), Integer.parseInt(txtIdProducto.getText()));
+        mostrarDatos();
+        limpiar();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        metodos.EliminarP(Integer.parseInt(txtIdProducto.getText()));
+        mostrarDatos();
+        limpiar();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
+        Frm_menu ventana = new Frm_menu();
+        ventana.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
+
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_btnLimpiarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -244,14 +361,51 @@ public class Frm_Productos extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void mostrarDatos(){
+    
+    String[] titulos = {"IdProducto","Nombre","Marca","Categoria","Precio","Cantidad"};
+    String[] registros = new String[6];
+    
+    DefaultTableModel modelo = new DefaultTableModel(null,titulos);
+    
+    String SQL="SELECT * FROM productos";
+    
+    try {
+         Connection conexion = ConexionBD.conectar();
+         sentencia_preparada= conexion.prepareStatement(SQL);
+         resultado = sentencia_preparada.executeQuery();
+        
+        while (resultado.next()) {
+            
+            registros[0] = resultado.getString("IdProducto");
+            registros[1] = resultado.getString("Nombre");
+            registros[2] = resultado.getString("Marca");
+            registros[3] = resultado.getString("Categoria");            
+            registros[4] = resultado.getString("Precio");
+            registros[5] = resultado.getString("Cantidad");
+            
+            
+            modelo.addRow(registros);
+        
+        }
+        
+        tblProductos.setModel(modelo);
+    
+    
+    
+    } catch (Exception e){
+        JOptionPane.showMessageDialog(null,"Error al mostrar datos"+ e.getMessage());
+    }
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnCerrar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
@@ -263,7 +417,7 @@ public class Frm_Productos extends javax.swing.JFrame {
     private javax.swing.JTable tblProductos;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCategoria;
-    private javax.swing.JTextField txtIdUsuario;
+    private javax.swing.JTextField txtIdProducto;
     private javax.swing.JTextField txtMarca;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtPrecio;

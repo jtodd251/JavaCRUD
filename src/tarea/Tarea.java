@@ -14,7 +14,7 @@ public class Tarea {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Frm_menu.main(args);
+        Frm_entrar.main(args);
     }
     
 }

@@ -84,6 +84,8 @@ public class Frm_registrar extends javax.swing.JFrame {
             }
         });
 
+        btnGuardar.setBackground(new java.awt.Color(153, 255, 255));
+        btnGuardar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnGuardar.setText("Guardar");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -91,6 +93,8 @@ public class Frm_registrar extends javax.swing.JFrame {
             }
         });
 
+        btnRegresar.setBackground(new java.awt.Color(153, 255, 255));
+        btnRegresar.setFont(new java.awt.Font("Segoe UI", 3, 12)); // NOI18N
         btnRegresar.setText("Regresar");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -188,7 +192,7 @@ public class Frm_registrar extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTelefonoActionPerformed
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        Frm_menu ventana = new Frm_menu();
+        Frm_entrar ventana = new Frm_entrar();
         ventana.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
@@ -196,6 +200,9 @@ public class Frm_registrar extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
 
         int i = metodos.guardar(txtNombre.getText(), txtApellido.getText(), txtTelefono.getText(), txtCorreo.getText(), txtContraseña.getText(),txtUsuario.getText(),txtCcontraseña.getText());
+        Frm_entrar ventana = new Frm_entrar();
+        ventana.setVisible(true);
+        this.dispose();
 
         
 

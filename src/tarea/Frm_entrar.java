@@ -52,16 +52,18 @@ public class Frm_entrar extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         jLabel3.setText("Contraseña:");
 
+        btnEntrar.setBackground(new java.awt.Color(153, 255, 255));
         btnEntrar.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        btnEntrar.setText("Entrar");
+        btnEntrar.setText("Iniciar Sesion");
         btnEntrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEntrarActionPerformed(evt);
             }
         });
 
+        btnRegresar.setBackground(new java.awt.Color(153, 255, 255));
         btnRegresar.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
-        btnRegresar.setText("Regresar");
+        btnRegresar.setText("Registrarse");
         btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRegresarActionPerformed(evt);
@@ -75,23 +77,24 @@ public class Frm_entrar extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(138, 138, 138)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3))
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-                            .addComponent(txtContraseña)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(btnEntrar)
-                        .addGap(69, 69, 69)
-                        .addComponent(btnRegresar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(138, 138, 138)
-                        .addComponent(jLabel1)))
-                .addContainerGap(74, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(36, 36, 36)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                                    .addComponent(txtContraseña)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnEntrar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRegresar)))))
+                .addGap(37, 37, 37))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,7 +120,7 @@ public class Frm_entrar extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
-        Frm_menu ventana = new Frm_menu();
+        Frm_registrar ventana = new Frm_registrar();
         ventana.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
@@ -128,7 +131,7 @@ public class Frm_entrar extends javax.swing.JFrame {
            if(txtCorreo.getText().equals("root") && txtContraseña.getText().equals("root")){
                
                JOptionPane.showMessageDialog(this, "Birnvenido iniciaste sesion como root (Administrador)");
-               Frm_sistema ventana = new Frm_sistema();             
+               Frm_menu ventana = new Frm_menu();             
                ventana.labelNombre.setText("Administrador");
                ventana.setVisible(true);
                this.dispose();
@@ -138,7 +141,7 @@ public class Frm_entrar extends javax.swing.JFrame {
            }else if (busqueda_usuario.equals("usuario encontrado")){
                String busqueda_nombre = metodos.buscarNombre(txtCorreo.getText());
                JOptionPane.showMessageDialog(this, "Bienvenido \n"+ busqueda_nombre);
-               Frm_sistema ventana = new Frm_sistema();
+               Frm_menu ventana = new Frm_menu();
                ventana.labelNombre.setText(busqueda_nombre);
                ventana.setVisible(true);
                this.dispose();

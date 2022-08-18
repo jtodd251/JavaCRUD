@@ -52,6 +52,34 @@ public class Metodos_sql {
     
     }
     
+    public int EliminarP(int idproducto ){
+        
+        int resultado = 0;
+        Connection conexion= null;
+        
+        String sentencia_eliminar = ("DELETE FROM productos WHERE idproducto=?");
+        
+        try { 
+            conexion =  ConexionBD.conectar();
+            sentencia_preparada = conexion.prepareStatement(sentencia_eliminar);
+            sentencia_preparada.setInt(1, idproducto);
+
+            
+            resultado = sentencia_preparada.executeUpdate();
+            sentencia_preparada.close();
+            
+            conexion.close();
+        
+        } catch (Exception e){
+            
+            System.out.println(e);
+        
+        }
+        
+        return resultado;
+    
+    }
+    
     public int Actualizar(String nombre, String apellidos, String telefono, String correo, String contraseña,String usuario, int idusuario){
         
         int resultado = 0;
@@ -94,6 +122,40 @@ public class Metodos_sql {
             
             conexion.close();
             }
+        
+        } catch (Exception e){
+            
+            System.out.println(e);
+        
+        }
+        
+        return resultado;
+    
+    }
+    
+    public int Actualizar(String nombre, String marca, String categoria, double precio, int cantidad, int idproducto){
+        
+        int resultado = 0;
+        Connection conexion= null;
+        
+        String sentencia_guardar = ("UPDATE productos SET nombre=?,marca=?,categoria=?,precio=?,cantidad=? WHERE idproducto=?");
+        
+        try { 
+            conexion =  ConexionBD.conectar();
+            sentencia_preparada = conexion.prepareStatement(sentencia_guardar);
+            sentencia_preparada.setInt(6, idproducto);
+            sentencia_preparada.setString(1, nombre);
+            sentencia_preparada.setString(2, marca);
+            sentencia_preparada.setString(3, categoria);
+            sentencia_preparada.setDouble(4, precio);
+            sentencia_preparada.setInt(5, cantidad);
+            
+            
+            resultado = sentencia_preparada.executeUpdate();
+            sentencia_preparada.close();
+            
+            conexion.close();
+            
         
         } catch (Exception e){
             
@@ -171,12 +233,12 @@ public class Metodos_sql {
         return resultado;
     
     }
-        public int guardar(String nombre, String marca, String categoria, double precio, int cantidad ){
+        public int guardar(String nombre, String marca, String categoria, int precio, int cantidad ){
         
         int resultado = 0;
         Connection conexion= null;
         
-        String sentencia_guardar = ("INSERT INTO productos(nombre,marca,categoira,precio,cantidad) VALUES (?,?,?,?,?)");
+        String sentencia_guardar = ("INSERT INTO productos(nombre,marca,categoria,precio,cantidad) VALUES (?,?,?,?,?)");
         
         try { 
             conexion =  ConexionBD.conectar();
